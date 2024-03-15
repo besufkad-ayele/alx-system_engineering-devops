@@ -1,9 +1,40 @@
-#!/usr/bin/env bash
-# Configures an Ubuntu server as follows:
-#   - localhost resolves to 127.0.0.2
-#   - facebook.com resolves to 8.8.8.8
+#!/bin/bash
 
-cp /etc/hosts ~/hosts.new
-echo "127.0.0.2		localhost" > ~/hosts.new
-echo "8.8.8.8		facebook.com" >> ~/hosts.new
-cp -f ~/hosts.new /etc/hosts
+# Update hosts file location for Docker containers
+ETC_HOSTS=/etc/hosts.docker
+
+# Check if Docker container specific hosts file exists
+if [ ! -f "$ETC_HOSTS" ]; then
+  echo "Docker container specific hosts file not found: $ETC_HOSTS"
+  exit 1
+fi
+
+# Backup original hosts file (optional)
+# cp "$ETC_HOSTS" "$ETC_HOSTS.bak"
+
+# Update localhost entry
+sed -i "s/127.0.0.1\tlocalhost/127.0.0.2\tlocalhost/g" "$ETC_HOSTS"
+
+# Update facebook.com entry
+sed -i "s/\(.*\)facebook.com/\1 8.8.8.8/g" "$ETC_HOSTS"
+
+echo "Successfully updated /etc/hosts.docker file."
+
+# Function to revert changes (optional)
+revert_changes() {
+  # Restore original localhost entry
+  sed -i "s/127.0.0.2\tlocalhost/127.0.0.1\tlocalhost/g" "$ETC_HOSTS"
+
+  # Restore original facebook.com entry (assuming no other IPs were added)
+  sed -i "s/ 8.8.8.8/ /g" "$ETC_HOSTS"
+
+  echo "Reverted changes to /etc/hosts.docker file."
+}
+
+# Offer option to revert changes (uncomment if needed)
+# read -p "Do you want to revert changes? (y/N) " -n 1 -r
+# if [[ $REPLY =~ ^[Yy]$ ]]; then
+#   revert_changes
+# fi
+
+exit 0
