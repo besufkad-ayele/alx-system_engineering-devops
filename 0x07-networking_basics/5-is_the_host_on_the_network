@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# This script pings an IP address passed as an argument and determines its reachability.
+
+if [ $# -eq 0 ]; then
+  echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
+  exit 1
+fi
+
+ip_address=$1
+
+ping -c 5 $ip_address
+
+if [ $? -eq 0 ]; then
+  echo "$ip_address is reachable."
+else
+  echo "$ip_address is unreachable."
+fi
