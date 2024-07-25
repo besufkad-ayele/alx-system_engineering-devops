@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Configures a ufw firewall to block all incoming traffic
-#+ except for TCP ports 22, 443 and 80.
+# except for TCP ports 22, 443, and 80.
 
-ssh ubuntu@3.85.136.169 -i ~/.ssh/school
-sudo apt-get install ufw
-sudo sed -i 's/IPV6=.*/IPV6=yes/' /etc/default/ufwsudo
-sudo ufw status
-sudo ufw app list
-sudo ufw enable
+ssh ubuntu@3.85.136.169 -i ~/.ssh/school << 'EOF'
+sudo apt-get install -y ufw
+sudo sed -i 's/IPV6=.*/IPV6=yes/' /etc/default/ufw
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
 sudo ufw allow ssh
-sudo ufw status
 sudo ufw allow http
-sudo ufw status
 sudo ufw allow https
+sudo ufw enable
+sudo ufw status verbose
+EOF

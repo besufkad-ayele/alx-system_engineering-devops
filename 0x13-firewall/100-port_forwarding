@@ -14,7 +14,6 @@
 -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
 COMMIT
 
-
 *filter
 :ufw-before-input - [0:0]
 :ufw-before-output - [0:0]
