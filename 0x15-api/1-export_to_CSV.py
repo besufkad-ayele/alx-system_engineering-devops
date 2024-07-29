@@ -13,7 +13,8 @@ def export_todo_list(user_id):
     # Fetch user information
     user_response = requests.get(url + f"users/{user_id}")
     if user_response.status_code != 200:
-        print(f"Error fetching user information for ID {user_id}: {user_response.text}")
+        print(f"Error fetching user information for ID {user_id}: "
+              f"{user_response.text}")
         return
 
     user = user_response.json()
@@ -23,7 +24,8 @@ def export_todo_list(user_id):
     params = {"userId": user_id}
     todos_response = requests.get(url + "todos", params=params)
     if todos_response.status_code != 200:
-        print(f"Error fetching to-do list for user ID {user_id}: {todos_response.text}")
+        print(f"Error fetching to-do list for user ID {user_id}: "
+              f"{todos_response.text}")
         return
 
     todos = todos_response.json()
