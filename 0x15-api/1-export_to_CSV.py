@@ -10,7 +10,6 @@ def export_todo_list(user_id):
     """Exports to-do list information for a given employee ID to CSV format."""
     url = "https://jsonplaceholder.typicode.com/"
     
-    # Fetch user information
     user_response = requests.get(url + f"users/{user_id}")
     if user_response.status_code != 200:
         print(f"Error fetching user information for ID {user_id}: "
@@ -20,7 +19,6 @@ def export_todo_list(user_id):
     user = user_response.json()
     username = user.get("username")
 
-    # Fetch to-do list
     params = {"userId": user_id}
     todos_response = requests.get(url + "todos", params=params)
     if todos_response.status_code != 200:
@@ -30,11 +28,10 @@ def export_todo_list(user_id):
 
     todos = todos_response.json()
 
-    # Create CSV file
     with open(f"{user_id}.csv", "w", newline="") as csvfile:
         fieldnames = ["User ID", "Username", "Completed", "Title"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()  # Add headers for readability
+        writer.writeheader()
 
         for todo in todos:
             writer.writerow({
