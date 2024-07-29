@@ -9,7 +9,7 @@ import sys
 def export_todo_list(user_id):
     """Exports to-do list information for a given employee ID to CSV format."""
     url = "https://jsonplaceholder.typicode.com/"
-
+    
     # Fetch user information
     user_response = requests.get(url + f"users/{user_id}")
     if user_response.status_code != 200:
