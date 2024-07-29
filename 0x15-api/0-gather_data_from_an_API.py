@@ -10,11 +10,9 @@ if __name__ == "__main__":
     employee_id = sys.argv[1]
     user_response = requests.get(url + "users/{}".format(employee_id))
     user = user_response.json()
-    
     params = {"userId": employee_id}
     todos_response = requests.get(url + "todos", params=params)
     todos = todos_response.json()
-    
     completed = []
     for todo in todos:
         if todo.get("completed") is True:
