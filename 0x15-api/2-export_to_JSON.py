@@ -9,11 +9,15 @@ if __name__ == "__main__":
     url = "https://jsonplaceholder.typicode.com/"
     user = requests.get(url + "users/{}".format(user_id)).json()
     username = user.get("username")
+    params = {"userId": user_id}
     todos = requests.get(url + "todos", params={"userId": user_id}).json()
-
+    data_to_export = {user_id: []}
+    for todo in todos:
+        task_info = {
+            "task": todo.get("title"),
+            "completed": todo.get("completed"),
+            "username": username
+        }
+        data_to_export[user_id].append(task_info)
     with open("{}.json".format(user_id), "w") as jsonfile:
-        json.dump({user_id: [{
-                "task": t.get("title"),
-                "completed": t.get("completed"),
-                "username": username
-            } for t in todos]}, jsonfile)
+        json.dump(data_to_export, jsonfile)
