@@ -13,7 +13,9 @@ def fetch_user_data():
     
     for user in users:
         user_id = user.get("id")
-        todos_response = requests.get(url + "todos", params={"userId": user_id})
+        todos_response = requests.get(
+            url + "todos", params={"userId": user_id}
+        )
         todo_list = todos_response.json()
         data_to_export[user_id] = []
         
